@@ -1,7 +1,7 @@
 package com.lhd.j2s.translator;
 
+import cn.hutool.core.util.ReflectUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -88,12 +88,14 @@ public class FieldTranslator<T> {
 
             for (FieldTransRule rule : rules) {
 
-                Field keyField = FieldUtils.getField(entityType, rule.getKeyFieldName(), true);
+                Field keyField = ReflectUtil.getField(entityType, rule.getKeyFieldName());
+                keyField.setAccessible(true);
                 for (String valueFieldName : rule.getValueFieldNames()) {
 
                     try {
 
-                        Field valueField = FieldUtils.getField(entityType, valueFieldName, true);
+                        Field valueField = ReflectUtil.getField(entityType, valueFieldName);
+                        valueField.setAccessible(true);
                         valueField.set(entity,
                                 rule.getValueMap()
                                         .get(keyField.get(entity).toString())

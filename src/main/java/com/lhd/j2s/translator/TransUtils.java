@@ -1,5 +1,6 @@
 package com.lhd.j2s.translator;
 
+import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -7,7 +8,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lhd.j2s.module.dict.dao.DictMapper;
 import com.lhd.j2s.module.dict.model.dataobj.DictDO;
 import com.lhd.j2s.util.SpringUtils;
-import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -153,7 +153,8 @@ public class TransUtils {
         List whereIdList = new ArrayList();
         for (T entity : entityList) {
             try {
-                Field keyField = FieldUtils.getField(entityType, keyFieldName, true);
+                Field keyField = ReflectUtil.getField(entityType, keyFieldName);
+                keyField.setAccessible(true);
                 whereIdList.add(keyField.get(entity));
             } catch (Exception e) {
                 e.printStackTrace();
