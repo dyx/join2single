@@ -89,9 +89,9 @@ left join t_dict t4 on t4.code = t1.type_code and t3.type_code = 'order_type'
     - 目前由于都是分页查询数据量很小，后期考虑进行一些极限数据量测试
 
 ## 相关依赖
-- `mybatis-plus 3.3` ORM
-- `mapstruct 1.3` 实体转换
-- `swagger2 2.9` 接口文档
+- `mybatis-plus 3.4` ORM
+- `mapstruct 1.4` 实体转换
+- `swagger2 3.0` 接口文档，访问地址http://localhost:8080/swagger-ui
 
 ## 运行准备
 - IDEA安装`lombok`插件
