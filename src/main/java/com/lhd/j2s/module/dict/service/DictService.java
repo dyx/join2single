@@ -1,12 +1,17 @@
 package com.lhd.j2s.module.dict.service;
 
+import java.util.List;
 import java.util.Map;
 
+/**
+ * @author lhd
+ */
 public interface DictService {
+
     /**
-     * 根据字典编码获取字典Map，用于翻译
-     * @param typeCode
+     * 根据字典编码列表查询字典
+     * @param typeCodeList
      * @return
      */
-    Map<Integer, String> findDictMapByTypeCode(String typeCode);
+    Map<String, Map<Integer, String>> findDictMapByTypeCodeList(List<String> typeCodeList);
 }

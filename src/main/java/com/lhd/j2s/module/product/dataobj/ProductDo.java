@@ -7,10 +7,12 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
+/**
+ * @author lhd
+ */
 @Data
 @TableName("t_product")
-public class ProductDO {
-
+public class ProductDo {
 
     @TableId(value = "code", type = IdType.INPUT)
     private String code;

@@ -1,8 +1,11 @@
 package com.lhd.j2s.module.product.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lhd.j2s.module.product.dataobj.ProductDO;
+import com.lhd.j2s.module.product.dataobj.ProductDo;
 
-public interface ProductMapper extends BaseMapper<ProductDO> {
+/**
+ * @author lhd
+ */
+public interface ProductMapper extends BaseMapper<ProductDo> {
 
 }

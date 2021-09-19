@@ -4,9 +4,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ * @author lhd
+ */
 @ApiModel(value = "订单列表返回结果")
 @Data
-public class OrderListVO {
+public class OrderListVo {
 
     @ApiModelProperty(value = "id")
     private Long id;
@@ -23,14 +26,14 @@ public class OrderListVO {
     @ApiModelProperty(value = "用户地址")
     private String userAddress;
 
-    @ApiModelProperty(value = "订单状态编码")
-    private Integer stateCode;
+    @ApiModelProperty(value = "订单状态")
+    private Integer status;
 
     @ApiModelProperty(value = "订单状态名称")
-    private String stateName;
+    private String statusName;
 
-    @ApiModelProperty(value = "订单类型编码")
-    private Integer typeCode;
+    @ApiModelProperty(value = "订单类型")
+    private Integer type;
 
     @ApiModelProperty(value = "订单类型名称")
     private String typeName;

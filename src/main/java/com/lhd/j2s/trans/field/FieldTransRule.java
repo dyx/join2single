@@ -1,10 +1,7 @@
-package com.lhd.j2s.translator;
-
-import java.util.Map;
+package com.lhd.j2s.trans.field;
 
 /**
  * 字段翻译规则
- *
  * @author lhd
  */
 public class FieldTransRule {
@@ -18,20 +15,14 @@ public class FieldTransRule {
      * 要翻译的字段名称
      */
     private String[] valueFieldNames;
-    /**
-     * 主键值和翻译值映射
-     * <key, <valueFieldName, value>>
-     */
-    private Map<String, Map<String, Object>> valueMap;
 
-    public FieldTransRule(String keyFieldName, String valueFieldName, Map<String, Map<String, Object>> valueMap) {
-        this(keyFieldName, new String[]{valueFieldName}, valueMap);
+    public FieldTransRule(String keyFieldName, String valueFieldName) {
+        this(keyFieldName, new String[]{valueFieldName});
     }
 
-    public FieldTransRule(String keyFieldName, String[] valueFieldNames, Map<String, Map<String, Object>> valueMap) {
+    public FieldTransRule(String keyFieldName, String[] valueFieldNames) {
         this.keyFieldName = keyFieldName;
         this.valueFieldNames = valueFieldNames;
-        this.valueMap = valueMap;
     }
 
     public String getKeyFieldName() {
@@ -48,13 +39,5 @@ public class FieldTransRule {
 
     public void setValueFieldNames(String[] valueFieldNames) {
         this.valueFieldNames = valueFieldNames;
-    }
-
-    public Map<String, Map<String, Object>> getValueMap() {
-        return valueMap;
-    }
-
-    public void setValueMap(Map<String, Map<String, Object>> valueMap) {
-        this.valueMap = valueMap;
     }
 }

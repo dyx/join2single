@@ -13,6 +13,9 @@ import springfox.documentation.swagger.web.UiConfiguration;
 import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * @author lhd
+ */
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig {

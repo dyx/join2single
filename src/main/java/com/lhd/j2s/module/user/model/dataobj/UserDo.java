@@ -5,13 +5,19 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+/**
+ * @author lhd
+ */
 @Data
 @TableName("t_user")
-public class UserDO {
-
+public class UserDo {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private String name;
+
+    private String phone;
+
+    private String address;
 }

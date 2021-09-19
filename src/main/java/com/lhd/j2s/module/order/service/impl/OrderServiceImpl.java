@@ -1,6 +1,5 @@
 package com.lhd.j2s.module.order.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -8,64 +7,49 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lhd.j2s.base.BasePageQuery;
 import com.lhd.j2s.module.order.dao.OrderMapper;
 import com.lhd.j2s.module.order.model.converter.AbstractOrderConverter;
-import com.lhd.j2s.module.order.model.dataobj.OrderDO;
-import com.lhd.j2s.module.order.model.vo.OrderListVO;
+import com.lhd.j2s.module.order.model.dataobj.OrderDo;
+import com.lhd.j2s.module.order.model.vo.OrderListVo;
 import com.lhd.j2s.module.order.service.OrderService;
-import com.lhd.j2s.module.product.dao.ProductMapper;
-import com.lhd.j2s.module.user.dao.UserMapper;
-import com.lhd.j2s.translator.DBTransRule;
-import com.lhd.j2s.translator.DictTransRule;
-import com.lhd.j2s.translator.TransUtils;
+import com.lhd.j2s.trans.annotation.DictTrans;
+import com.lhd.j2s.trans.annotation.DictTranslating;
+import com.lhd.j2s.trans.annotation.RefTrans;
+import com.lhd.j2s.trans.annotation.RefTranslating;
+import com.lhd.j2s.trans.consts.RefTransType;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-
+/**
+ * @author lhd
+ */
 @Service
-public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderDO> implements OrderService {
+public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderDo> implements OrderService {
 
+    @DictTranslating({
+            @DictTrans(typeCode = "order_status", readFieldName = "status"),
+            @DictTrans(typeCode = "order_type", readFieldName = "type")
+    })
+    @RefTranslating({
+            @RefTrans(type = RefTransType.USER, readFieldName = "userId", writeFieldNames = {"userName", "userPhone", "userAddress", "test"}),
+            @RefTrans(type = RefTransType.PRODUCT, readFieldName = "productCode", writeFieldNames = "productName")
+    })
     @Override
-    public IPage<OrderListVO> pageOrder(BasePageQuery query) {
+    public IPage<OrderListVo> pageOrder(BasePageQuery query) {
 
-        LambdaQueryWrapper<OrderDO> queryWrapper = Wrappers.<OrderDO>lambdaQuery();
+        IPage<OrderDo> doPage = page(new Page<>(query.getCurrent(), query.getSize()), Wrappers.emptyWrapper());
 
-        IPage<OrderDO> doPage = page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper);
-
-        IPage<OrderListVO> voPage = AbstractOrderConverter.INSTANCE.doPage2ListVOPage(doPage);
-
-        trans(voPage.getRecords(), OrderListVO.class);
-
-        return voPage;
+        return AbstractOrderConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
+    @DictTranslating({
+            @DictTrans(typeCode = "order_status", readFieldName = "status"),
+            @DictTrans(typeCode = "order_type", readFieldName = "type")
+    })
+    @RefTranslating({
+            // 翻译时会按顺序匹配值（UserTransValueMapHandler），此处writeFieldNames顺序需要和处理器中一致
+            @RefTrans(type = RefTransType.USER, readFieldName = "userId", writeFieldNames = {"userName", "", "userAddress"}),
+            @RefTrans(type = RefTransType.PRODUCT, readFieldName = "productCode", writeFieldNames = "productName")
+    })
     @Override
-    public OrderListVO getOrderById(Long id) {
-
-        OrderListVO listVO = AbstractOrderConverter.INSTANCE.do2ListVO(getById(id));
-
-        trans(Collections.singletonList(listVO), OrderListVO.class);
-
-        return listVO;
-    }
-
-    private <T> void trans(List<T> entityList, Class<T> entityType) {
-
-        TransUtils.trans(entityList, entityType, new DictTransRule[]{
-                new DictTransRule("order_state", "stateCode"),
-                new DictTransRule("order_type", "typeCode", "typeName")
-        });
-
-        TransUtils.trans(entityList, entityType, new DBTransRule[]{
-                new DBTransRule<>(
-                        new String[]{"userId", "userName", "userPhone", "userAddress"},
-                        UserMapper.class,
-                        new String[]{"id", "name", "phone", "address"}
-                ),
-                new DBTransRule<>(
-                        new String[]{"productCode", "productName"},
-                        ProductMapper.class,
-                        new String[]{"code", "name"}
-                )
-        });
+    public OrderListVo getOrderById(Long id) {
+        return AbstractOrderConverter.INSTANCE.do2ListVo(getById(id));
     }
 }

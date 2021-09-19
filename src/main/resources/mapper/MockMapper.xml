@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhd.j2s.module.mock.dao.MockMapper">
+
+    <delete id="clearUser">
+        truncate t_user
+    </delete>
+
+    <delete id="clearProduct">
+        truncate t_product
+    </delete>
+
+    <delete id="clearOrder">
+        truncate t_order
+    </delete>
+
+    <insert id="insertUser" parameterType="string">
+        load data local infile '${path}'
+        into table t_user fields terminated by ',' (`id`, `username`, `name`, `phone`, `address`)
+    </insert>
+
+    <insert id="insertProduct" parameterType="string">
+        load data local infile '${path}'
+        into table t_product fields terminated by ',' (`code`, `name`, `price`)
+    </insert>
+
+    <insert id="insertOrder" parameterType="string">
+        load data local infile '${path}'
+        into table t_order fields terminated by ',' (`user_id`, `status`, `type`, `product_code`)
+    </insert>
+</mapper>

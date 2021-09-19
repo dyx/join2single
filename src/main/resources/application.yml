@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://localhost:3306/test?characterEncoding=utf-8&ti&useSSL=false
+      url: jdbc:mysql://localhost:3306/test?characterEncoding=utf-8&ti&useSSL=false&allowLoadLocalInfile=true
       username: root
       password: 123456
       initial-size: 1

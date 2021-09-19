@@ -5,18 +5,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+/**
+ * @author lhd
+ */
 @Data
 @TableName("t_order")
-public class OrderDO {
+public class OrderDo {
 
     @TableId(value = "id", type = IdType.AUTO)
     private String id;
 
     private String userId;
 
-    private Integer stateCode;
+    private Integer status;
 
-    private Integer typeCode;
+    private Integer type;
 
     private String productCode;
 }

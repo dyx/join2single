@@ -1,10 +1,13 @@
-package com.lhd.j2s.util;
+package com.lhd.j2s.trans.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author lhd
+ */
 @Component
 public class SpringUtils implements ApplicationContextAware {
 
@@ -20,12 +23,5 @@ public class SpringUtils implements ApplicationContextAware {
             return null;
         }
         return context.getBean(clazz);
-    }
-
-    public static <T> T getBean(String beanName, Class<T> clazz) {
-        if (beanName == null || beanName.length() == 0 || clazz == null) {
-            return null;
-        }
-        return context.getBean(beanName, clazz);
     }
 }

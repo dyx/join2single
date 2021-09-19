@@ -1,5 +1,9 @@
-package com.lhd.j2s.translator;
+package com.lhd.j2s.trans.field;
 
+/**
+ * 字典字段翻译规则
+ * @author lhd
+ */
 public class DictTransRule extends FieldTransRule {
 
     private String typeCode;
@@ -9,7 +13,7 @@ public class DictTransRule extends FieldTransRule {
     }
 
     public DictTransRule(String typeCode, String keyFieldName, String valueFieldName) {
-        super(keyFieldName, valueFieldName, null);
+        super(keyFieldName, valueFieldName);
         this.typeCode = typeCode;
     }
 
@@ -19,9 +23,5 @@ public class DictTransRule extends FieldTransRule {
 
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
-    }
-
-    public static void main(String[] args) {
-        System.out.println("stateCode".substring(0, "stateCode".length() - 4) + "Name");
     }
 }

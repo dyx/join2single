@@ -1,16 +1,16 @@
 create table t_dict
 (
     type_code varchar(30)  default '' not null comment '类型编码',
-    code      int unsigned default 0  not null comment '编码',
-    value     varchar(30)  default '' not null comment '值',
+    value      int unsigned default 0  not null comment '值',
+    name     varchar(30)  default '' not null comment '名称',
     primary key (type_code, code)
 );
 
-INSERT INTO t_dict (type_code, code, value) VALUES ('order_state', 1, '已付款');
-INSERT INTO t_dict (type_code, code, value) VALUES ('order_state', 2, '已发货');
-INSERT INTO t_dict (type_code, code, value) VALUES ('order_state', 3, '已完成');
-INSERT INTO t_dict (type_code, code, value) VALUES ('order_type', 1, '销售订单');
-INSERT INTO t_dict (type_code, code, value) VALUES ('order_type', 2, '采购订单');
+INSERT INTO t_dict (type_code, value, name) VALUES ('order_state', 1, '已付款');
+INSERT INTO t_dict (type_code, value, name) VALUES ('order_state', 2, '已发货');
+INSERT INTO t_dict (type_code, value, name) VALUES ('order_state', 3, '已完成');
+INSERT INTO t_dict (type_code, value, name) VALUES ('order_type', 1, '销售订单');
+INSERT INTO t_dict (type_code, value, name) VALUES ('order_type', 2, '采购订单');
 
 
 create table t_order
@@ -18,18 +18,18 @@ create table t_order
     id           bigint auto_increment
         primary key,
     user_id      bigint       default 0  not null,
-    state_code   int unsigned default 0  not null,
-    type_code    int unsigned default 0  not null,
+    status   int unsigned default 0  not null,
+    type    int unsigned default 0  not null,
     product_code char(10)     default '' not null
 );
 
-INSERT INTO t_order (id, user_id, state_code, type_code, product_code) VALUES (1, 1, 1, 1, 'P0001');
-INSERT INTO t_order (id, user_id, state_code, type_code, product_code) VALUES (2, 2, 2, 1, 'P0002');
-INSERT INTO t_order (id, user_id, state_code, type_code, product_code) VALUES (3, 3, 2, 2, 'P0002');
-INSERT INTO t_order (id, user_id, state_code, type_code, product_code) VALUES (4, 4, 2, 2, 'P0002');
-INSERT INTO t_order (id, user_id, state_code, type_code, product_code) VALUES (5, 5, 3, 2, 'P0001');
-INSERT INTO t_order (id, user_id, state_code, type_code, product_code) VALUES (6, 6, 3, 2, 'P0001');
-INSERT INTO t_order (id, user_id, state_code, type_code, product_code) VALUES (7, 7, 3, 1, 'P0003');
+INSERT INTO t_order (id, user_id, status, type, product_code) VALUES (1, 1, 1, 1, 'P0001');
+INSERT INTO t_order (id, user_id, status, type, product_code) VALUES (2, 2, 2, 1, 'P0002');
+INSERT INTO t_order (id, user_id, status, type, product_code) VALUES (3, 3, 2, 2, 'P0002');
+INSERT INTO t_order (id, user_id, status, type, product_code) VALUES (4, 4, 2, 2, 'P0002');
+INSERT INTO t_order (id, user_id, status, type, product_code) VALUES (5, 5, 3, 2, 'P0001');
+INSERT INTO t_order (id, user_id, status, type, product_code) VALUES (6, 6, 3, 2, 'P0001');
+INSERT INTO t_order (id, user_id, status, type, product_code) VALUES (7, 7, 3, 1, 'P0003');
 
 
 create table t_product

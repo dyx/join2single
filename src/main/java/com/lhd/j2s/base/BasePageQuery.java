@@ -1,5 +1,8 @@
 package com.lhd.j2s.base;
 
+/**
+ * @author lhd
+ */
 public class BasePageQuery {
 
     private final static int MAX_SIZE = 100;
