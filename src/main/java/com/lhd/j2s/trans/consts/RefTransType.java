@@ -21,4 +21,8 @@ public enum RefTransType {
 	RefTransType(String type) {
 		this.type = type;
 	}
+
+	public String append(String suffix) {
+		return this.type + ":" + suffix;
+	}
 }

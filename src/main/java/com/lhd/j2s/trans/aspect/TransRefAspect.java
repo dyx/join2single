@@ -3,7 +3,6 @@ package com.lhd.j2s.trans.aspect;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lhd.j2s.trans.annotation.RefTrans;
 import com.lhd.j2s.trans.annotation.RefTranslating;
-import com.lhd.j2s.trans.consts.RefTransType;
 import com.lhd.j2s.trans.field.RefTransRule;
 import com.lhd.j2s.trans.handler.TransValueMapHandlerFactory;
 import com.lhd.j2s.trans.util.ReflectUtils;
@@ -33,7 +32,7 @@ public class TransRefAspect {
     @Around("pointcut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
 
-    	long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         Object result = point.proceed();
         if (result == null) {
             return null;
@@ -56,13 +55,13 @@ public class TransRefAspect {
         List<?> entityList = result2EntityList(result);
 
         // 获取读取字段值
-        Map<RefTransType, List<Object>> readFieldValueMap = getReadFieldValueMap(entityList, ruleList);
+        Map<String, List<Object>> readFieldValueMap = getReadFieldValueMap(entityList, ruleList);
         if (readFieldValueMap.size() == 0) {
             return result;
         }
 
         // 获取翻译值
-        Map<RefTransType, Map<Object, Map<String, Object>>> transValueMap = TransValueMapHandlerFactory.getTransValueMap(ruleList, readFieldValueMap);
+        Map<String, Map<Object, Map<String, Object>>> transValueMap = TransValueMapHandlerFactory.getTransValueMap(ruleList, readFieldValueMap);
         if (transValueMap.size() == 0) {
             return result;
         }
@@ -89,7 +88,7 @@ public class TransRefAspect {
         }
     }
 
-    private void setEntityValue(Object entity, List<RefTransRule> ruleList, Map<RefTransType, Map<Object, Map<String, Object>>> transValueMap) {
+    private void setEntityValue(Object entity, List<RefTransRule> ruleList, Map<String, Map<Object, Map<String, Object>>> transValueMap) {
 
         for (RefTransRule refTransRule : ruleList) {
             Object readFieldValue;
@@ -100,7 +99,8 @@ public class TransRefAspect {
                 readFieldValue = ReflectUtils.getFieldValue(entity, refTransRule.getKeyFieldName());
             }
 
-            Map<Object, Map<String, Object>> allValueMap = transValueMap.get(refTransRule.getRefTransType());
+            String allValueMapKey = refTransRule.getRefTransType().append(refTransRule.getKeyFieldName());
+            Map<Object, Map<String, Object>> allValueMap = transValueMap.get(allValueMapKey);
             if (allValueMap != null && readFieldValue != null) {
                 Map<String, Object> valueMap = allValueMap.get(readFieldValue);
                 if (valueMap != null) {
@@ -112,11 +112,12 @@ public class TransRefAspect {
         }
     }
 
-    private Map<RefTransType, List<Object>> getReadFieldValueMap(List<?> entityList, List<RefTransRule> ruleList) {
+    private Map<String, List<Object>> getReadFieldValueMap(List<?> entityList, List<RefTransRule> ruleList) {
 
-        Map<RefTransType, List<Object>> readFieldValueMap = new HashMap<>(16);
+        Map<String, List<Object>> readFieldValueMap = new HashMap<>(16);
         for (RefTransRule refTransRule : ruleList) {
-            List<Object> readFieldValueList = readFieldValueMap.get(refTransRule.getRefTransType());
+            String key = refTransRule.getRefTransType().append(refTransRule.getKeyFieldName());
+            List<Object> readFieldValueList = readFieldValueMap.get(key);
             for (Object entity : entityList) {
                 Object readFieldValue = ReflectUtils.getFieldValue(entity, refTransRule.getKeyFieldName());
                 if (readFieldValue != null) {
@@ -126,7 +127,7 @@ public class TransRefAspect {
                     readFieldValueList.add(readFieldValue);
                 }
             }
-            readFieldValueMap.put(refTransRule.getRefTransType(), readFieldValueList);
+            readFieldValueMap.put(key, readFieldValueList);
         }
 
         return readFieldValueMap;
